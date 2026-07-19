@@ -48,13 +48,15 @@ local DEFAULT_MAGENTA = Color3.fromRGB(255, 46, 151) -- #FF2E97
 local THEME = {
     Accent = DEFAULT_ACCENT,
     AccentB = DEFAULT_MAGENTA,
-    Background = Color3.fromRGB(7, 9, 18),
-    Glass = Color3.fromRGB(15, 19, 34),
-    GlassRaised = Color3.fromRGB(23, 28, 47),
-    Control = Color3.fromRGB(25, 31, 51),
-    Text = Color3.fromRGB(238, 247, 255),
-    Muted = Color3.fromRGB(133, 148, 174),
-    Dark = Color3.fromRGB(3, 5, 12),
+    -- Brighter dark surfaces keep the cyberpunk look while separating panels
+    -- clearly from one another, even over dark Roblox scenes.
+    Background = Color3.fromRGB(16, 22, 38),
+    Glass = Color3.fromRGB(28, 36, 58),
+    GlassRaised = Color3.fromRGB(45, 57, 86),
+    Control = Color3.fromRGB(40, 51, 78),
+    Text = Color3.fromRGB(250, 253, 255),
+    Muted = Color3.fromRGB(190, 204, 226),
+    Dark = Color3.fromRGB(11, 16, 29),
     Success = Color3.fromRGB(72, 255, 182),
     Danger = Color3.fromRGB(255, 78, 111),
     Corner = UDim.new(0, 9),
@@ -313,7 +315,7 @@ local function installHover(owner, object, scale, stroke, amount)
         tween(scale, 0.28, Enum.EasingStyle.Quint, Enum.EasingDirection.Out, { Scale = 1 })
         tween(object, 0.28, Enum.EasingStyle.Quint, Enum.EasingDirection.Out, {
             BackgroundColor3 = THEME.Control,
-            BackgroundTransparency = 0.22,
+            BackgroundTransparency = 0.08,
         })
         if stroke then
             tween(stroke, 0.28, Enum.EasingStyle.Quint, Enum.EasingDirection.Out, {
@@ -1077,7 +1079,7 @@ function Tab:CreateSection(name)
         Size = UDim2.new(1, -2, 0, 0),
         AutomaticSize = Enum.AutomaticSize.Y,
         BackgroundColor3 = THEME.Glass,
-        BackgroundTransparency = 0.42,
+        BackgroundTransparency = 0.18,
         BorderSizePixel = 0,
         LayoutOrder = self._sectionCount,
         ZIndex = 12,
@@ -1122,7 +1124,7 @@ function Tab:CreateSection(name)
         BackgroundTransparency = 1,
         Text = string.upper(tostring(name or "SECTION")),
         TextColor3 = THEME.Muted,
-        TextSize = 10,
+        TextSize = 11,
         TextXAlignment = Enum.TextXAlignment.Left,
         Font = THEME.FontBold,
         ZIndex = 14,
@@ -1143,7 +1145,7 @@ function Section:_base(name, height)
         Name = tostring(name or "Control"),
         Size = UDim2.new(1, 0, 0, height or 52),
         BackgroundColor3 = THEME.Control,
-        BackgroundTransparency = 0.22,
+        BackgroundTransparency = 0.08,
         BorderSizePixel = 0,
         ClipsDescendants = false,
         LayoutOrder = self:_nextOrder(),
@@ -1596,7 +1598,7 @@ function Section:CreateDropdown(config)
         BackgroundTransparency = 1,
         Text = tostring(config.Name or "Dropdown"),
         TextColor3 = THEME.Muted,
-        TextSize = 10,
+        TextSize = 11,
         TextXAlignment = Enum.TextXAlignment.Left,
         Font = THEME.FontMedium,
         ZIndex = 17,
@@ -1645,7 +1647,7 @@ function Section:CreateDropdown(config)
         Position = UDim2.fromOffset(8, 54),
         Size = UDim2.new(1, -16, 0, 0),
         BackgroundColor3 = THEME.Dark,
-        BackgroundTransparency = 0.38,
+        BackgroundTransparency = 0.14,
         BorderSizePixel = 0,
         GroupTransparency = 1,
         ClipsDescendants = true,
@@ -2004,7 +2006,7 @@ function Section:CreateKeybind(config)
         BorderSizePixel = 0,
         Text = boundKey == Enum.KeyCode.Unknown and "UNBOUND" or keyName(boundKey),
         TextColor3 = THEME.Accent,
-        TextSize = 10,
+        TextSize = 11,
         Font = THEME.FontBold,
         AutoButtonColor = false,
         ZIndex = 18,
@@ -2114,7 +2116,7 @@ function Section:CreateColorPicker(config)
         BackgroundTransparency = 1,
         Text = colorToHex(currentColor),
         TextColor3 = THEME.Muted,
-        TextSize = 10,
+        TextSize = 11,
         TextXAlignment = Enum.TextXAlignment.Right,
         Font = THEME.FontMedium,
         ZIndex = 17,
@@ -2141,7 +2143,7 @@ function Section:CreateColorPicker(config)
         Position = UDim2.fromOffset(10, 58),
         Size = UDim2.new(1, -20, 0, 154),
         BackgroundColor3 = THEME.Dark,
-        BackgroundTransparency = 0.38,
+        BackgroundTransparency = 0.14,
         BorderSizePixel = 0,
         GroupTransparency = 1,
         Visible = false,
@@ -2370,7 +2372,7 @@ end
 function Section:CreateLabel(text)
     local control, stroke = self:_base("Label", 0)
     control.AutomaticSize = Enum.AutomaticSize.Y
-    control.BackgroundTransparency = 0.52
+    control.BackgroundTransparency = 0.28
     stroke.Transparency = 0.86
 
     local label = create("TextLabel", {
@@ -2478,14 +2480,14 @@ function Haze:CreateWindow(config)
     local backgroundGradient = create("UIGradient", {
         Rotation = 125,
         Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(24, 31, 51)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(10, 13, 25)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(27, 15, 38)),
+            ColorSequenceKeypoint.new(0, Color3.fromRGB(48, 62, 92)),
+            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(26, 34, 54)),
+            ColorSequenceKeypoint.new(1, Color3.fromRGB(54, 34, 70)),
         }),
         Transparency = NumberSequence.new({
-            NumberSequenceKeypoint.new(0, 0.05),
-            NumberSequenceKeypoint.new(0.5, 0.16),
-            NumberSequenceKeypoint.new(1, 0.08),
+            NumberSequenceKeypoint.new(0, 0.02),
+            NumberSequenceKeypoint.new(0.5, 0.07),
+            NumberSequenceKeypoint.new(1, 0.03),
         }),
         Parent = main,
     })
@@ -2544,7 +2546,7 @@ function Haze:CreateWindow(config)
         Name = "TopBar",
         Size = UDim2.new(1, 0, 0, 64),
         BackgroundColor3 = THEME.Dark,
-        BackgroundTransparency = 0.42,
+        BackgroundTransparency = 0.18,
         BorderSizePixel = 0,
         Active = true,
         ZIndex = 8,
@@ -2557,7 +2559,7 @@ function Haze:CreateWindow(config)
         Position = UDim2.new(0, 0, 1, -11),
         Size = UDim2.new(1, 0, 0, 11),
         BackgroundColor3 = THEME.Dark,
-        BackgroundTransparency = 0.42,
+        BackgroundTransparency = 0.18,
         BorderSizePixel = 0,
         ZIndex = 8,
         Parent = topBar,
@@ -2622,7 +2624,7 @@ function Haze:CreateWindow(config)
         BackgroundTransparency = 1,
         Text = "HOLOGRAPHIC INTERFACE  /  HAZE",
         TextColor3 = THEME.Muted,
-        TextSize = 8,
+        TextSize = 11,
         TextXAlignment = Enum.TextXAlignment.Left,
         Font = THEME.FontBold,
         ZIndex = 10,
@@ -2670,7 +2672,7 @@ function Haze:CreateWindow(config)
         Position = UDim2.fromOffset(0, 64),
         Size = UDim2.new(0, 184, 1, -64),
         BackgroundColor3 = THEME.Dark,
-        BackgroundTransparency = 0.6,
+        BackgroundTransparency = 0.25,
         BorderSizePixel = 0,
         ZIndex = 7,
         Parent = main,
@@ -2693,7 +2695,7 @@ function Haze:CreateWindow(config)
         BackgroundTransparency = 1,
         Text = "NAVIGATION",
         TextColor3 = THEME.Muted,
-        TextSize = 9,
+        TextSize = 11,
         TextXAlignment = Enum.TextXAlignment.Left,
         Font = THEME.FontBold,
         ZIndex = 9,
@@ -2734,8 +2736,8 @@ function Haze:CreateWindow(config)
         BackgroundTransparency = 1,
         Text = "RIGHTSHIFT  ·  TOGGLE UI",
         TextColor3 = THEME.Muted,
-        TextTransparency = 0.28,
-        TextSize = 8,
+        TextTransparency = 0.06,
+        TextSize = 11,
         Font = THEME.FontBold,
         ZIndex = 9,
         Parent = sidebar,
