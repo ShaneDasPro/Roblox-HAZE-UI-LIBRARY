@@ -2477,20 +2477,10 @@ function Haze:CreateWindow(config)
         addCorner(shadow, UDim.new(0, 14 + index * 2))
     end
 
-    local backgroundGradient = create("UIGradient", {
-        Rotation = 125,
-        Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(48, 62, 92)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(26, 34, 54)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(54, 34, 70)),
-        }),
-        Transparency = NumberSequence.new({
-            NumberSequenceKeypoint.new(0, 0.02),
-            NumberSequenceKeypoint.new(0.5, 0.07),
-            NumberSequenceKeypoint.new(1, 0.03),
-        }),
-        Parent = main,
-    })
+    -- Never attach a UIGradient directly to this CanvasGroup. Roblox applies it
+    -- to the composited group, which darkens every descendant (including text)
+    -- like a translucent black overlay. The solid glass background preserves
+    -- the intended dark panel without reducing control readability.
 
     local border = addStroke(main, Color3.new(1, 1, 1), 1.6, 1)
     local borderGradient = addAccentGradient(border, -180)
@@ -2758,7 +2748,6 @@ function Haze:CreateWindow(config)
     window.Scale = scale
     window.Border = border
     window.BorderGradient = borderGradient
-    window.BackgroundGradient = backgroundGradient
     window.TopBar = topBar
     window.Sidebar = sidebar
     window.TabList = tabList
